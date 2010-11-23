@@ -1,0 +1,7 @@
+<li>
+  <div style="background-image: url(<%= image.file.url %>);"></div>
+  <span>
+    <%= link_to "Преглед", image.file(:big), :target => "_blank", :class => "view" %>
+    <%= link_to "Изтрий", image, :class => "delete" %>
+  </span>
+</li>
