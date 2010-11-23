@@ -9,6 +9,18 @@ $("#images_widget").each(function(){
   widget.bind("action:error", function(e, errorMessage){
     alert(errorMessage);
   });
+
+  widget.delegate('[data-method="delete"]', "click", function(e){
+    e.preventDefault();
+    var element = $(this);
+    if (confirm(element.data("confirm"))){
+      $.ajax({
+        url:  element.attr("href"),
+        type: "DELETE"
+      });
+      element.parents("li").remove();
+    }
+  });
 });
 
 $.fileUploadSupported && $('#new_image').submit(function(e){

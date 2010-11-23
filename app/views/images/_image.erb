@@ -2,6 +2,6 @@
   <div style="background-image: url(<%= image.file.url %>);"></div>
   <span>
     <%= link_to "Преглед", image.file(:big), :target => "_blank", :class => "view" %>
-    <%= link_to "Изтрий", image, :class => "delete" %>
+    <%= link_to "Изтрий", image, :class => "delete", :method => :delete, :confirm => "Сигурни ли сте, че искате да изтриете тази снимка?" %>
   </span>
 </li>
