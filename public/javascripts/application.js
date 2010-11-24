@@ -19,6 +19,14 @@ $(document).delegate('[data-method="delete"]', "click", function(e){
   }
 });
 
+$(document).delegate("[data-sortable-url]", "action:reorder", function(e, data){
+  $.ajax({
+    url:  $(this).data("sortable-url"),
+    type: "PUT",
+    data: data
+  });
+});
+
 $("#images_widget").each(function(){
   var widget = $(this),
       images  = widget.children("ol");
@@ -34,11 +42,7 @@ $("#images_widget").each(function(){
   images.sortable({
     placeholder: "ui-state-highlight",
     update: function(e, ui){
-      $.ajax({
-        url:  images.data("sortable-url"),
-        type: "PUT",
-        data: $(this).sortable("serialize")
-      });
+      images.trigger("action:reorder", $(this).sortable("serialize"));
     }
   });
 });
