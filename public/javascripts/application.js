@@ -27,25 +27,29 @@ $(document).delegate("[data-sortable-url]", "action:reorder", function(e, data){
   });
 });
 
-$("#images_widget").each(function(){
-  var widget = $(this),
-      images  = widget.children("ol");
+var OpenFest = {
+  createDynamicWidget: function(widget, options){
+    widget  = $(widget);
+    options = jQuery.extend({ list: "ol", item: "li" }, options || {});
 
-  widget.bind("action:insert", function(e, content){
-    images.prepend(content);
-  });
+    var list = widget.children(options.list);
 
-  widget.delegate("li", "action:delete", function(){
-    $(this).remove();
-  });
+    widget.bind("action:insert", function(e, content){
+      list.prepend(content);
+    });
 
-  images.sortable({
-    placeholder: "ui-state-highlight",
-    update: function(e, ui){
-      images.trigger("action:reorder", $(this).sortable("serialize"));
-    }
-  });
-});
+    widget.delegate(options.item, "action:delete", function(){
+      $(this).remove();
+    });
+
+    list.sortable({
+      placeholder: "ui-state-highlight",
+      update:      function(){ list.trigger("action:reorder", $(this).sortable("serialize")); }
+    });
+  }
+};
+
+OpenFest.createDynamicWidget("#images_widget");
 
 function preview(image){
   var overlay = $('<div class="overlay"></div>');
