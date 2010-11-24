@@ -4,7 +4,7 @@
     <%= f.file_field :file %>
     <%= f.submit "Добави снимка" %>
   <% end %>
-  <ol>
+  <ol data-sortable-url="<%= reorder_images_path %>">
     <%= render @images %>
   </ol>
 </div>

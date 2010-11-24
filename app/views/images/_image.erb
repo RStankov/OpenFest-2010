@@ -1,4 +1,4 @@
-<li>
+<li id="<%= dom_id(image); %>">
   <div style="background-image: url(<%= image.file.url %>);"></div>
   <span>
     <%= link_to "Преглед", image.file(:big), :target => "_blank", :class => "view", "data-action" => "preview" %>

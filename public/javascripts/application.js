@@ -26,6 +26,17 @@ $("#images_widget").each(function(){
     e.preventDefault();
     preview($(this).attr("href"));
   });
+  
+  images.sortable({
+    placeholder: "ui-state-highlight",
+    update: function(e, ui){
+      $.ajax({
+        url:  images.data("sortable-url"),
+        type: "PUT",
+        data: $(this).sortable("serialize")
+      });
+    }
+  });
 });
 
 function preview(image){
