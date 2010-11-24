@@ -1,13 +1,18 @@
+$(document).bind("action:error", function(e, errorMessage){
+  alert(errorMessage);
+});
+
+$(document).delegate('[data-action="preview"]', "click", function(e){
+  e.preventDefault();
+  preview($(this).attr("href"));
+});
+
 $("#images_widget").each(function(){
   var widget = $(this),
       images  = widget.children("ol");
 
   widget.bind("action:insert", function(e, content){
     images.prepend(content);
-  });
-
-  widget.bind("action:error", function(e, errorMessage){
-    alert(errorMessage);
   });
 
   widget.delegate('[data-method="delete"]', "click", function(e){
@@ -22,11 +27,6 @@ $("#images_widget").each(function(){
     }
   });
 
-  widget.delegate('[data-action="preview"]', "click", function(e){
-    e.preventDefault();
-    preview($(this).attr("href"));
-  });
-  
   images.sortable({
     placeholder: "ui-state-highlight",
     update: function(e, ui){
