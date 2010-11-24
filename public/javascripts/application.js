@@ -21,7 +21,45 @@ $("#images_widget").each(function(){
       element.parents("li").remove();
     }
   });
+
+  widget.delegate('[data-action="preview"]', "click", function(e){
+    e.preventDefault();
+    preview($(this).attr("href"));
+  });
 });
+
+function preview(image){
+  var overlay = $('<div class="overlay"></div>');
+
+  overlay.click(function(){
+    overlay.html("").hide();
+  });
+
+  overlay.appendTo(document.body);
+
+  (preview = function(src){
+    overlay.prepend(getImage(src)).show();
+  })(image);
+
+  function getImage(src){
+    var image = new Image();
+
+    image.src = src;
+    image.style.visibility = "hidden";
+    image.onload = function(){
+      setTimeout(function(){
+        image.onload = null;
+        $(image).css({
+          visibility: "visible",
+          top:        Math.max(0, ($(window).height() - image.height) / 2) + "px",
+          left:       Math.max(0, ($(window).width()  - image.width)  / 2) + "px"
+        });
+      }, 1);
+    };
+
+    return image;
+  }
+}
 
 $.fileUploadSupported && $('#new_image').submit(function(e){
   var form  = $(this),
