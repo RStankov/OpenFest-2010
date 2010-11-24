@@ -7,6 +7,18 @@ $(document).delegate('[data-action="preview"]', "click", function(e){
   preview($(this).attr("href"));
 });
 
+$(document).delegate('[data-method="delete"]', "click", function(e){
+  e.preventDefault();
+  var element = $(this);
+  if (confirm(element.data("confirm"))){
+    $.ajax({
+      url:  element.attr("href"),
+      type: "DELETE"
+    });
+    element.trigger("action:delete");
+  }
+});
+
 $("#images_widget").each(function(){
   var widget = $(this),
       images  = widget.children("ol");
@@ -15,16 +27,8 @@ $("#images_widget").each(function(){
     images.prepend(content);
   });
 
-  widget.delegate('[data-method="delete"]', "click", function(e){
-    e.preventDefault();
-    var element = $(this);
-    if (confirm(element.data("confirm"))){
-      $.ajax({
-        url:  element.attr("href"),
-        type: "DELETE"
-      });
-      element.parents("li").remove();
-    }
+  widget.delegate("li", "action:delete", function(){
+    $(this).remove();
   });
 
   images.sortable({
